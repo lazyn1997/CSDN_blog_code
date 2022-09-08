@@ -6,27 +6,23 @@
 ## 失物招领系统
 - [C++](课程设计/失物招领系统/C++)
   > 博客地址：https://blog.csdn.net/qq_36949278/article/details/123670203
- 
 - [LabVIEW](课程设计/失物招领系统/LabVIEW)
   > 博客地址：https://blog.csdn.net/qq_36949278/article/details/105565583
 
 ## 模糊PID
 - [Simulink](课程设计/模糊PID控制/Simulink)
   > 博客地址：https://blog.csdn.net/qq_36949278/article/details/105569943
-
 - [LabVIEW](课程设计/模糊PID控制/LabVIEW)
   > 博客地址：https://blog.csdn.net/qq_36949278/article/details/105521599
 
 # 课后作业
 ## 机器学习
 - [对率回归决策树](课后作业/机器学习/对率回归决策树)
-<div align="center>
-<img src="./课后作业/机器学习/对率回归决策树/tree.png" width= "400" />
-<p>对率回归决策树</p>
-</div>
-
-  > 博客地址：https://blog.csdn.net/qq_36949278/article/details/89597491
-  
+  > 博客地址：https://blog.csdn.net/qq_36949278/article/details/89597491 
+<p align="center">
+<img src="课后作业/机器学习/对率回归决策树/tree.png" width="800" alt="对率回归决策树"/>
+</p> 
 
 - [A\*算法求解迷宫寻路问题（启发式算法）](课后作业/机器学习/A\*算法迷宫寻路)
   > 博客地址：https://blog.csdn.net/qq_36949278/article/details/109255204
+

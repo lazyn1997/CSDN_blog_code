@@ -1,3 +1,8 @@
+"""
+Created on Sat Nov 24 16:47:38 2018
+
+@author: 魅梦
+"""
 import numpy as np
 import time
 
@@ -60,7 +65,7 @@ for l in range(len(a)):
         print(a[l, m], end=' ')
     print('')
 print('')
-b = a
+
 startx, starty = 1, 1
 i, j = startx - 1, starty - 1
 endx, endy = 4, 4
@@ -84,7 +89,7 @@ while Open:
             Open, minf = op(Open, i, j + 1, minf)
         if j - 1 >= 0 and a[i, j - 1] == 0:
             Open, minf = op(Open, i, j - 1, minf)
-        b[i, j] = road
+        a[i, j] = road
         road = road + 1
         if Open:
             i, j = i1, j1
@@ -92,12 +97,12 @@ while Open:
             Opens.extend(Open)
     else:
         end = time.time()
-        b[endx - 1, endy - 1] = road
+        a[endx - 1, endy - 1] = road
         print("最短路径寻找成功，路径为：")
-        for l in range(len(b)):
-            for m in range(b[0].size):
+        for l in range(len(a)):
+            for m in range(a[0].size):
                 # 0表示format中第一个元素，>表示右对齐输出，3表示占三个字符
-                print("{0: >4}".format(b[l, m]), end='')
+                print("{0: >4}".format(a[l, m]), end='')
             print('')
         print("扩展节点数为：", len(Opens))
         print("生成节点数为：", len(Close))

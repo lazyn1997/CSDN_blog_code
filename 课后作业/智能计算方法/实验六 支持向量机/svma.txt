@@ -1,0 +1,94 @@
+﻿%主函数
+clear all;
+clc;
+C = 10;
+kertype = 'linear';
+%训练样本
+n = 50;
+randn('state',6);%可以保证每次每次产生的随机数一样
+x1 = randn(2,n);    %2行N列矩阵
+y1 = ones(1,n);       %1*N个1
+x2 = 5+randn(2,n);   %2*N矩阵
+y2 = -ones(1,n);      %1*N个-1
+
+figure;
+plot(x1(1,:),x1(2,:),'bx',x2(1,:),x2(2,:),'k.'); 
+axis([-3 8 -3 8]);
+xlabel('x轴');
+ylabel('y轴');
+hold on;
+
+X = [x1,x2];        %训练样本d*n矩阵，n为样本个数，d为特征向量个数，在这里，X为一个2*100的数组
+Y = [y1,y2];        %训练目标1*n矩阵，n为样本个数，值为+1或-1，在这里，Y为一个1*100的数组
+svm = svmTrain(X,Y,kertype,C);
+plot(svm.Xsv(1,:),svm.Xsv(2,:),'ro');
+
+%测试
+[x1,x2] = meshgrid(-2:0.05:7,-2:0.05:7);  %x1和x2都是181*181的矩阵
+[rows,cols] = size(x1);  
+nt = rows*cols;                  
+Xt = [reshape(x1,1,nt);reshape(x2,1,nt)];
+Yt = ones(1,nt);
+result = svmTest(svm, Xt, Yt, kertype);
+
+Yd = reshape(result.Y,rows,cols);
+contour(x1,x2,Yd,'m');
+
+
+
+
+
+训练集函数如下： 
+function svm = svmTrain(X,Y,kertype,C)
+options = optimset;    % Options是用来控制算法的选项参数的向量
+options.LargeScale = 'off';%LargeScale指大规模搜索，off表示在规模搜索模式关闭
+options.Display = 'off';%这样设置意味着没有输出
+
+n = length(Y);%数组Y的长度
+H = (Y'*Y).*kernel(X,X,kertype);%调用kernel函数，
+
+f = -ones(n,1); %f为1*n个-1,f相当于Quadprog函数中的c
+A = [];
+b = [];
+Aeq = Y; %相当于Quadprog函数中的A1,b1
+beq = 0;
+lb = zeros(n,1); %相当于Quadprog函数中的LB，UB
+ub = C*ones(n,1);
+a0 = zeros(n,1);  % a0是解的初始近似值
+[a,fval,eXitflag,output,lambda]  = quadprog(H,f,A,b,Aeq,beq,lb,ub,a0,options);
+
+epsilon = 1e-8;                     
+sv_label = find(abs(a)>epsilon);  %0<a<a(max)则认为x为支持向量     
+svm.a = a(sv_label);
+svm.Xsv = X(:,sv_label);
+svm.Ysv = Y(sv_label);
+svm.svnum = length(sv_label);
+%svm.label = sv_label;
+
+核函数如下： 
+function K = kernel(X,Y,type)
+%X 维数*个数
+switch type
+case 'linear'
+    K = X'*Y;
+case 'rbf'
+    delta = 5;
+    delta = delta*delta;
+    XX = sum(X'.*X',2);%sum(a,2)代码中参数2的意思是将a矩阵a中的按“行”为单位进行求和
+    YY = sum(Y'.*Y',2);
+    XY = X'*Y;
+    K = abs(repmat(XX,[1 size(YY,1)]) + repmat(YY',[size(XX,1) 1]) - 2*XY);
+    K = exp(-K./delta);
+end
+
+测试函数如下 
+function result = svmTest(svm, Xt, Yt, kertype)
+temp = (svm.a'.*svm.Ysv)*kernel(svm.Xsv,svm.Xsv,kertype);
+total_b = svm.Ysv-temp;
+b = mean(total_b);
+w = (svm.a'.*svm.Ysv)*kernel(svm.Xsv,Xt,kertype);
+result.score = w + b;
+Y = sign(w+b);
+result.Y = Y;
+result.accuracy = size(find(Y==Yt))/size(Yt);
+

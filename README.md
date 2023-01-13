@@ -26,3 +26,6 @@
 - [A\*算法求解迷宫寻路问题（启发式算法）](课后作业/机器学习/A\*算法迷宫寻路)
   > 博客地址：https://blog.csdn.net/qq_36949278/article/details/109255204
 
+## 智能计算方法
+- [MATLAB实现智能计算方法实验汇总](课后作业/智能计算方法)
+  > 汇总博客地址：https://blog.csdn.net/qq_36949278/article/details/125774867

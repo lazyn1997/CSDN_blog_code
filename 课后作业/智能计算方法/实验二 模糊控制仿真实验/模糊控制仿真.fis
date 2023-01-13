@@ -1,0 +1,49 @@
+[System]
+Name='模糊控制仿真'
+Type='mamdani'
+Version=2.0
+NumInputs=2
+NumOutputs=1
+NumRules=9
+AndMethod='min'
+OrMethod='max'
+ImpMethod='min'
+AggMethod='max'
+DefuzzMethod='centroid'
+
+[Input1]
+Name='soil'
+Range=[0 100]
+NumMFs=3
+MF1='SD':'gauss2mf',[13.59 -4 13.59 4]
+MF2='MD':'gauss2mf',[13.59 46 13.59 54]
+MF3='LD':'gauss2mf',[13.59 96 13.59 104]
+
+[Input2]
+Name='grease'
+Range=[0 100]
+NumMFs=3
+MF1='NG':'gauss2mf',[13.59 -4 13.59 4]
+MF2='MG':'gauss2mf',[13.59 46 13.59 54]
+MF3='LG':'gauss2mf',[13.59 96 13.59 104]
+
+[Output1]
+Name='time'
+Range=[1 120]
+NumMFs=5
+MF1='VS':'gauss2mf',[16.17 -3.76 16.17 5.76]
+MF2='S':'gauss2mf',[16.17 29.3414788732394 16.17 38.8614788732394]
+MF3='M':'gauss2mf',[16.17 52.39 16.15 61.91]
+MF4='L':'gauss2mf',[20.21 83.88 20.2 95.78]
+MF5='VL':'gauss2mf',[20.21 114.5 20.21 126.4]
+
+[Rules]
+1 1, 1 (1) : 1
+1 2, 3 (1) : 1
+1 3, 4 (1) : 1
+2 1, 2 (1) : 1
+2 2, 3 (1) : 1
+2 3, 4 (1) : 1
+3 1, 3 (1) : 1
+3 2, 4 (1) : 1
+3 3, 5 (1) : 1
